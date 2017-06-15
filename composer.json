@@ -1,6 +1,6 @@
 {
   "name": "iuliann/rapture-template",
-  "description": "Rapture Template component",
+  "description": "Rapture template component",
   "keywords": ["library"],
   "homepage": "http://rapture.iuliann.ro",
   "license": "MIT",
@@ -10,5 +10,13 @@
       "homepage": "http://iuliann.ro",
       "role": "Developer"
     }
-  ]
+  ],
+  "require": {
+    "php": ">=5.4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Rapture\\Adr\\": "src/"
+    }
+  }
 }

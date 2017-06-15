@@ -32,6 +32,9 @@ class Template
     /** @var array */
     protected $filters = [];
 
+    /** @var array */
+    protected $helpers = [];
+
     /**
      * Template constructor.
      *
@@ -268,7 +271,7 @@ class Template
     /**
      * Start a block of a template section
      *
-     * @param string  $name  Block name
+     * @param string $name Block name
      *
      * @return void
      */
@@ -296,7 +299,7 @@ class Template
     }
 
     /**
-     * @param string $name
+     * @param string $name Template name
      *
      * @return string
      */
@@ -334,7 +337,7 @@ class Template
      * Register filters
      * [filterName => callback]
      *
-     * @param array  $filters  Array of filters
+     * @param array $filters Array of filters
      *
      * @return $this
      */
@@ -369,5 +372,32 @@ class Template
         }
 
         return $value;
+    }
+
+    /**
+     * @param array $helpers Key value pair of helper name and callback
+     *
+     * @return $this
+     */
+    public function setHelpers(array $helpers)
+    {
+        $this->helpers = $helpers + $this->helpers;
+
+        return $this;
+    }
+
+    /**
+     * @param string $helper Helper name
+     * @param array  $params Params
+     *
+     * @return mixed
+     */
+    public function __call($helper, $params)
+    {
+        if (isset($this->helpers[$helper])) {
+            return call_user_func_array($this->helpers[$helper], $params);
+        }
+
+        return null;
     }
 }

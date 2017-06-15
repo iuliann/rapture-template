@@ -12,7 +12,7 @@ Simple templates for PHP.
 ## Install
 
 ```
-composer install iuliann/rapture-template
+composer require iuliann/rapture-template
 ```
 
 ## Quick start
