@@ -24,7 +24,7 @@ class Curly implements TemplateInterface
         $this->params = $params;
     }
 
-    public function render():string
+    public function render()
     {
         $contents = '';
         if (is_string($this->body)) {

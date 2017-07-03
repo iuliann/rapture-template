@@ -27,7 +27,7 @@ class Mustache implements TemplateInterface
         $this->options = $options;
     }
 
-    public function render():string
+    public function render()
     {
         $contents = '';
         if (is_string($this->body)) {

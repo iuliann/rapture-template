@@ -23,7 +23,7 @@ class Php implements TemplateInterface
         $this->params = $params;
     }
 
-    public function render():string
+    public function render()
     {
         $tmpResource = tmpfile();
         $stream = stream_get_meta_data($tmpResource);

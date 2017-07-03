@@ -197,7 +197,7 @@ class Phtml implements TemplateInterface
      *
      * @return string
      */
-    public function render():string
+    public function render()
     {
         $this->inherited[] = $this->name;
 
@@ -278,7 +278,7 @@ class Phtml implements TemplateInterface
      *
      * @return string
      */
-    public function name(string $name):string
+    public function name(string $name)
     {
         $name = trim($name, '/');
 

@@ -9,5 +9,5 @@ interface TemplateInterface
      *
      * @return string
      */
-    public function render():string;
+    public function render();
 }
