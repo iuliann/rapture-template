@@ -1,23 +1,22 @@
 <?php
 
-use Rapture\Template\Template;
+use Rapture\Template\Adapter\Phtml;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetters()
     {
-        $tpl = new Template('test', ['one' => 1]);
+        $tpl = new Phtml('test', ['one' => 1]);
         $this->assertEquals('test', $tpl->getName());
         $this->assertEquals([], $tpl->getInherited());
         $this->assertEquals(['one' => 1], $tpl->getParams());
         $this->assertEquals(['./views'], $tpl->getPaths());
-        $this->assertEquals('phtml', $tpl->getExtension());
     }
 
     public function testInheritance()
     {
-        $tpl = new Template('templates/index');
-        $tpl->setPaths(['./views', __DIR__ . '/../views']);
+        $tpl = new Phtml('templates/index');
+        $tpl->addPaths(['./views', __DIR__ . '/../views']);
         $tpl->inherit('layouts/default');
 
         $result = '<!doctype html>
@@ -37,24 +36,24 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     public function testName()
     {
-        $tpl = new Template;
-        $tpl->setPaths(__DIR__ . '/../views');
+        $tpl = new Phtml;
+        $tpl->addPaths(__DIR__ . '/../views');
 
-        $this->assertEquals(__DIR__ . '/../views' . '/templates/index.phtml', $tpl->name('templates/index'));
+        $this->assertEquals(realpath(__DIR__ . '/../views/templates/index.phtml'), realpath($tpl->name('templates/index')));
     }
 
     public function testEscape()
     {
-        $tpl = new Template;
+        $tpl = new Phtml;
 
         $this->assertEquals('&lt;test&gt;', $tpl->e('<test>'));
     }
 
     public function testFilters()
     {
-        $tpl = new Template;
+        $tpl = new Phtml;
 
-        $tpl->setFilters([
+        $tpl->addFilters([
             'exclamation' => function ($value) {
                 return $value . '!';
             }

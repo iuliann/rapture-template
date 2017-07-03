@@ -7,7 +7,11 @@ spl_autoload_register(
         static $classes = null;
         if ($classes === null) {
             $classes = array(
-                'rapture\\template\\template' => '/../src/Template.php'
+                'rapture\\template\\adapter\\curly' => '/../src/Adapter/Curly.php',
+                'rapture\\template\\adapter\\mustache' => '/../src/Adapter/Mustache.php',
+                'rapture\\template\\adapter\\php' => '/../src/Adapter/Php.php',
+                'rapture\\template\\adapter\\phtml' => '/../src/Adapter/Phtml.php',
+                'rapture\\template\\definition\\templateinterface' => '/../src/Definition/TemplateInterface.php'
             );
         }
         $cn = strtolower($class);

@@ -18,7 +18,7 @@ composer require iuliann/rapture-template
 ## Quick start
 
 ```php
-$tpl = new Template('templates/home', ['nickname' => 'John']);
+$tpl = new Phtml('templates/home', ['nickname' => 'John']);
 echo $tpl->render();
 ```
 
@@ -37,7 +37,7 @@ Layout
     	<?= $t->content ?>
 	</div>
 	
-    <!-- partial scope -->
+    <!-- partials scope -->
     <?= $t->insert('partials/footer', ['title' => $t->title]) ?>
 </body>
 </html>

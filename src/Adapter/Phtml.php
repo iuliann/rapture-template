@@ -1,6 +1,8 @@
 <?php
 
-namespace Rapture\Template;
+namespace Rapture\Template\Adapter;
+
+use Rapture\Template\Definition\TemplateInterface;
 
 /**
  * Rapture template engine
@@ -9,16 +11,13 @@ namespace Rapture\Template;
  * @author  Iulian N. <rapture@iuliann.ro>
  * @license LICENSE MIT
  */
-class Template
+class Phtml implements TemplateInterface
 {
     /** @var string */
     protected $name = '';
 
     /** @var array */
     protected $params = [];
-
-    /** @var string */
-    protected $extension = 'phtml';
 
     /** @var array */
     protected $paths = ['./views'];
@@ -66,33 +65,18 @@ class Template
     }
 
     /**
-     * Set extension
-     *
-     * @param string $extension
-     *
-     * @return $this
-     */
-    public function setExtension($extension = 'phtml')
-    {
-        $this->extension = $extension;
-
-        return $this;
-    }
-
-    /**
      * Set base path for templates
      *
-     * @param array $paths
+     * @param array $paths Add extra paths for template
      *
      * @return $this
      */
-    public function setPaths($paths = ['./views'])
+    public function addPaths($paths = ['./views'])
     {
         $paths = (array)$paths;
-        foreach ($paths as $index => $path) {
-            $paths[$index] = rtrim($path, '/');
+        foreach ($paths as $path) {
+            $paths[rtrim($path, '/')] = rtrim($path, '/');
         }
-        $this->paths = array_unique($paths);
 
         return $this;
     }
@@ -129,14 +113,6 @@ class Template
     public function getParams()
     {
         return $this->params;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExtension()
-    {
-        return $this->extension;
     }
 
     /**
@@ -221,12 +197,12 @@ class Template
      *
      * @return string
      */
-    public function render()
+    public function render():string
     {
         $this->inherited[] = $this->name;
 
         extract($this->params);
-        $t = $this;
+        $t = $this; // shortcut inside template
 
         ob_start();
 
@@ -262,9 +238,8 @@ class Template
     public function insert($name, array $params = [])
     {
         return (new self($name, $params))
-            ->setPaths($this->paths)
-            ->setFilters($this->filters)
-            ->setExtension($this->extension)
+            ->addPaths($this->paths)
+            ->addFilters($this->filters)
             ->render();
     }
 
@@ -308,8 +283,8 @@ class Template
         $name = trim($name, '/');
 
         foreach ($this->paths as $path) {
-            if (is_readable("{$path}/{$name}.{$this->extension}")) {
-                return "{$path}/{$name}.{$this->extension}";
+            if (is_readable("{$path}/{$name}.phtml")) {
+                return "{$path}/{$name}.phtml";
             }
         }
 
@@ -341,7 +316,7 @@ class Template
      *
      * @return $this
      */
-    public function setFilters(array $filters)
+    public function addFilters(array $filters)
     {
         $this->filters = $filters + $this->filters;
 
@@ -379,7 +354,7 @@ class Template
      *
      * @return $this
      */
-    public function setHelpers(array $helpers)
+    public function addHelpers(array $helpers)
     {
         $this->helpers = $helpers + $this->helpers;
 
